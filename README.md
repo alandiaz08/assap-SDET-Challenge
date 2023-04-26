@@ -1,8 +1,12 @@
-# e2e-web-framework
+# Asapp-Lead-SDET-Challenge
+
+<p align="center">
+  <img src="images/logo.PNG" width="400" height="250"/>
+</p>
 
 ## Description
 
-e2e-web-framework is an e2e demo framework. It was developed using Java, gradle, and Selenium.
+Asapp-Lead-SDET-Challenge is an e2e framework. It was developed using Java, gradle, and Selenium.
 
 ## Quickstart
 
@@ -18,8 +22,8 @@ brew cask install adoptopenjdk11
 brew cask install chromedriver
 
 # clone the project and launch the tests
-git clone https://github.com/alandiaz08/e2e-web-framework.git
-cd e2e-web-framework
+git clone https://github.com/alandiaz08/assap-SDET-Challenge
+cd Asapp-Lead-SDET-Challenge
 
 # For Windows
 # install java 11 
@@ -29,8 +33,8 @@ choco install adoptopenjdk11
 choco install chromedriver
 
 # clone the project and launch the tests
-git clone https://github.com/alandiaz08/e2e-web-framework.git
-cd e2e-web-framework 
+git clone https://github.com/alandiaz08/assap-SDET-Challenge
+cd Asapp-Lead-SDET-Challenge 
 ```
 
 This will execute all the tests using your local Chrome browser.
@@ -77,17 +81,7 @@ OpenJDK Runtime Environment AdoptOpenJDK (build 11.0.6+10)
 OpenJDK 64-Bit Server VM AdoptOpenJDK (build 11.0.6+10, mixed mode)
 ```
 
-### 3. Install Maven
-
-```bash
-# For Mac
-brew install maven
-
-# For Windows
-choco install maven
-```
-
-### 4. Install IntelliJ IDEA CE
+### 3. Install IntelliJ IDEA CE
 
 IntelliJ IDEA CE can be installed from the jetbrains website: <https://www.jetbrains.com/idea/download/#section=mac>  
 It can also be installed using brew:
@@ -100,7 +94,7 @@ brew cask install intellij-idea-ce
 choco install intellij-idea-ce
 ```
 
-### 5. Install chromedriver
+### 4. Install chromedriver
 
 ```bash
 # For Mac
