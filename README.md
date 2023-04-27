@@ -170,7 +170,7 @@ Scrip name: deleteAProductToCart
 2. Register a new user with a random generated username and password.
 3. Log in with the previously registered user.
 4. Select Stickets from the store.
-5. Add “2” of quantity.
+5. Add "2" of quantity.
 6. Add the product to the cart.
 7. Navigate to the cart.
 8. Remove the product from the cart.
@@ -181,7 +181,7 @@ Test 4: buyAProductToCart
 2. Register a new user with a random generated username and password.
 3. Log in with the previously registered user.
 4. Select waterBottle from the store.
-5. Add “2” of quantity Agrega el producto al carrito.
+5. Add "2" of quantity Agrega el producto al carrito.
 6. Navigate to the cart.
 7. Click on Buy.
 8. Go to Thank you page.
