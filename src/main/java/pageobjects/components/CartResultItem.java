@@ -3,6 +3,7 @@ package pageobjects.components;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import pageobjects.base.AbstractComponent;
+import pageobjects.pages.CartPage;
 
 
 public class CartResultItem extends AbstractComponent {
@@ -57,12 +58,12 @@ public class CartResultItem extends AbstractComponent {
    * Gets the cuisine tag.
    * @return the title.
    */
-  public CartResultList removeProduct() {
+  public CartPage removeProduct() {
     logger.debug("Get the Title");
     container.findElement(removeBy).click();
-    CartResultList cartResultList = new CartResultList(container.findElement(resultListContainerBy));
-    cartResultList.get();
-    return cartResultList;
+    CartPage cartPage = new CartPage();
+    cartPage.get();
+    return cartPage;
   }
 
   @Override

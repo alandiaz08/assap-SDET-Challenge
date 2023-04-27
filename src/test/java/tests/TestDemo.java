@@ -3,7 +3,9 @@ package tests;
 import base.TestBase;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pageobjects.components.CartResultItem;
 import pageobjects.components.RegisterUser;
+import pageobjects.pages.CartPage;
 import pageobjects.pages.LoginPage;
 import pageobjects.pages.StorePage;
 import utils.RandomStringGenerator;
@@ -26,8 +28,8 @@ public class TestDemo extends TestBase {
   @Test(
       groups = {"register"},
       description = "Register a new user",
-      enabled = true
-      //retryAnalyzer = TestBase.RetryAnalyzer.class
+      enabled = true,
+      retryAnalyzer = TestBase.RetryAnalyzer.class
   )
   public void registerNewUser() {
 
@@ -65,5 +67,104 @@ public class TestDemo extends TestBase {
     Assert.assertTrue(storePage.isListOfProductEmpty(), "The product list of the store is empty ");
   }
 
+  /**
+   * Adds products in the cart.
+   *
+   */
+  @Test(
+          groups = {"register"},
+          description = "Add products in the cart",
+          enabled = true,
+          retryAnalyzer = TestBase.RetryAnalyzer.class
+  )
+  public void addProductsToCart() {
+
+    // Arrange
+    final String user = "test.user." + RANDOM_GENERATOR.nextString();
+    final String userPassword = RANDOM_GENERATOR.nextString();
+    final String numberOfStickers = "3";
+    final String expectedProduct = "ASAPP Pens";
+    final String pensValue = "1";
+    final int pens = 1;
+
+
+    //Act I
+    LoginPage loginPage = new LoginPage();
+    loginPage.get();
+
+    CartResultItem cartResultItem = loginPage.registerUser()
+           .enterUserName(user)
+            .enterPassword(userPassword)
+            .registerUser()
+            .enterUserName(user)
+            .enterPassword(userPassword)
+            .logIn()
+            .storeResultList()
+            .getResultOfProducts(pens)
+            .selectNumberOfProductToAddToCart(numberOfStickers, pensValue)
+            .addProductToCart(pensValue)
+            .header()
+            .goToCart()
+            .cartResultList()
+            .getResult(0);
+
+    //Assert I
+    TestReporter.addInfoToReport("Assert that the product in the cart is: " + expectedProduct);
+    Assert.assertEquals(cartResultItem.getProducts(), expectedProduct, "The product in the cart is not: "
+            + expectedProduct);
+
+    TestReporter.addInfoToReport("Assert the quantity of products selected in the cart");
+    Assert.assertEquals(cartResultItem.getQuantity(), numberOfStickers, "The quantity of products selected "
+            + "in the cart is not: " + numberOfStickers);
+  }
+
+  /**
+   * Adds products in the cart.
+   *
+   */
+  @Test(
+          groups = {"register"},
+          description = "Add products in the cart",
+          enabled = true
+          //retryAnalyzer = TestBase.RetryAnalyzer.class
+  )
+  public void deleteAProductToCart() {
+
+    // Arrange
+    final String user = "test.user." + RANDOM_GENERATOR.nextString();
+    final String userPassword = RANDOM_GENERATOR.nextString();
+    final String numberOfStickers = "2";
+    final String expectedMessageOfEmptyList = "OH NO YOUR CART IS EMPTY";
+    final String stickerValue = "2";
+    final int sticker = 1;
+
+    //Act I
+    LoginPage loginPage = new LoginPage();
+    loginPage.get();
+
+    loginPage.registerUser()
+            .enterUserName(user)
+            .enterPassword(userPassword)
+            .registerUser()
+            .enterUserName(user)
+            .enterPassword(userPassword)
+            .logIn()
+            .storeResultList()
+            .getResultOfProducts(sticker)
+            .selectNumberOfProductToAddToCart(numberOfStickers, stickerValue)
+            .addProductToCart(stickerValue)
+            .header()
+            .goToCart()
+            .cartResultList()
+            .getResult(0)
+            .removeProduct();
+
+    CartPage cartPage = new CartPage();
+
+    //Assert I
+    TestReporter.addInfoToReport("Assert that the message of the empty list is: " + expectedMessageOfEmptyList);
+    Assert.assertEquals(cartPage.getYourCartIsEmpty(), expectedMessageOfEmptyList, "the message of "
+            + "the empty list is not: " + expectedMessageOfEmptyList);
+  }
 
 }

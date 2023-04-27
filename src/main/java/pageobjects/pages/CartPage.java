@@ -1,6 +1,10 @@
 package pageobjects.pages;
 
+import driver.DriverBase;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobjects.base.AbstractPage;
 import pageobjects.components.CartResultList;
 import pageobjects.components.Header;
@@ -16,7 +20,7 @@ public class CartPage extends AbstractPage {
   private static final By buyBy = By.cssSelector("div.buy-button > button");
   private static final By headerBy = By.cssSelector("[class='MuiPaper-root MuiPaper-elevation4 MuiAppBar-root"
           + " MuiAppBar-positionStatic MuiAppBar-colorPrimary']");
-  private static final By resultListContainerBy = By.cssSelector("tbody");
+  private static final By resultListContainerBy = By.cssSelector("header.App-header > div");
   private static final By thankYouContainerBy = By.cssSelector("div.MuiDialog-container.MuiDialog-scrollPaper > div");
 
 
@@ -24,7 +28,13 @@ public class CartPage extends AbstractPage {
   private Header header;
   private CartResultList cartResultList;
 
+  public Header header() {
+    return header;
+  }
 
+  public CartResultList cartResultList() {
+    return cartResultList;
+  }
 
   /**
    * Constructor of the SearchPage class when coming from another page.
@@ -44,6 +54,18 @@ public class CartPage extends AbstractPage {
     ThankYou thankYou = new ThankYou(driver.findElement(thankYouContainerBy));
     thankYou.get();
     return thankYou;
+  }
+
+  /**
+   * Gets the button message oh no your cart is empty".
+   * @return the button message oh no your cart is empty".
+   */
+  public String getYourCartIsEmpty() {
+    logger.debug("Get the button message oh no your cart is empty");
+    WebDriverWait wait = new WebDriverWait(DriverBase.getDriver(), TIMEOUT_TO_LOAD_PAGE);
+    WebElement emptyCartButton = wait.until(ExpectedConditions.presenceOfElementLocated(buyBy));
+    wait.until(ExpectedConditions.textToBePresentInElement(emptyCartButton, "OH NO YOUR CART IS EMPTY"));
+    return emptyCartButton.getText();
   }
 
   /**
@@ -75,15 +97,15 @@ public class CartPage extends AbstractPage {
       cartResultList = new CartResultList(driver.findElement(resultListContainerBy));
       cartResultList.get();
 
-    } catch (Exception noSearchList) {
+    } catch (Exception noCartList) {
       // if the cart list was not found, try to find the empty restaurant list message
       try {
-        logger.debug("Search list result is not displayed, checking for empty list message",
-                noSearchList);
+        logger.debug("Cart list result is not displayed, checking for empty list message",
+                noCartList);
         driver.findElement(buyBy).isDisplayed();
         logger.debug("Empty restaurant list message is displayed");
         cartResultList = new CartResultList();
-        logger.debug("Initializing the SearchResultList with zero element");
+        logger.debug("Initializing the CartResultList with zero element");
       } catch (Exception e) {
         throwNotLoadedException("Cart Page was not loaded correctly", e);
       }

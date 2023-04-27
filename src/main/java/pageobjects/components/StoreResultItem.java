@@ -70,10 +70,11 @@ public class StoreResultItem extends AbstractComponent {
    * Add the number of products to Cart.
    * @return StoreResultItem.
    */
-  public StoreResultItem selectNumberOfProductToAddToCart(String value) {
+  public StoreResultItem selectNumberOfProductToAddToCart(String value, String product) {
     logger.debug("Add the number of products to Cart: " + value);
     WebDriverWait wait = new WebDriverWait(DriverBase.getDriver(), TIMEOUT_TO_LOAD_COMPONENT);
-    WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(dropDownOfProductBy));
+    WebElement dropdown = wait.until(ExpectedConditions
+            .elementToBeClickable(By.xpath("//header[2]/div/div[" + product + "]/div/div")));
     logger.debug("Open the dropdown");
     dropdown.click();
     List<WebElement> options = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(numberOfProductBy));
@@ -89,11 +90,11 @@ public class StoreResultItem extends AbstractComponent {
 
   /**
    * Adds product to Cart.
-   * @return the product description.
+   * @return StorePage.
    */
-  public StorePage addProductToCart() {
+  public StorePage addProductToCart(String addCart) {
     logger.debug("Add product to Cart");
-    container.findElement(addToCartBy).click();
+    container.findElement(By.xpath("//header[2]/div/div[" + addCart + "]/div/button[1]")).click();
     StorePage storePage = new StorePage();
     storePage.get();
     return storePage;

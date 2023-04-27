@@ -10,6 +10,7 @@ public class CartResultList extends AbstractComponent {
 
   // Selectors
   private static final By resultItemsBy = By.cssSelector("table > tbody > tr");
+  private static final By buyBy = By.cssSelector("[class='buy-button']");
 
   // Components
   private final ArrayList<CartResultItem> listOfResults;
@@ -53,18 +54,27 @@ public class CartResultList extends AbstractComponent {
     try {
       // verify that each element is displayed before continuing
       container.findElement(resultItemsBy);
-    } catch (Exception e) {
-      throwNotLoadedException("The store result list was not loaded correctly", e);
-    }
+      logger.debug("Cart result item is displayed");
 
-    // initializes each result item and add it to the list
-    int i = 0;
-    for (WebElement resultItemContainer: container.findElements(resultItemsBy)) {
-      logger.debug("Adding store result item {} to the store result list", i);
-      i++;
-      CartResultItem resultItem = new CartResultItem(resultItemContainer);
-      resultItem.get();
-      listOfResults.add(resultItem);
+      // initializes each result item and add it to the list
+      int i = 0;
+      for (WebElement resultItemContainer: container.findElements(resultItemsBy)) {
+        logger.debug("Adding store result item {} to the store result list", i);
+        i++;
+        CartResultItem resultItem = new CartResultItem(resultItemContainer);
+        resultItem.get();
+        listOfResults.add(resultItem);
+      }
+    } catch (Exception noCartList) {
+      try {
+        logger.debug("Cart list result is not displayed, checking for empty list message",
+                noCartList);
+        container.findElement(buyBy).isDisplayed();
+        logger.debug("Empty restaurant list message is displayed");
+        logger.debug("Initializing the CartResultList with zero element");
+      } catch (Exception e) {
+        throwNotLoadedException("The Cart result list was not loaded correctly", e);
+      }
     }
 
     logger.debug("SearchResultList component was loaded correctly");

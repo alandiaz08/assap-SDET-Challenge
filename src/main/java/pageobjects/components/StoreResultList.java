@@ -2,15 +2,13 @@ package pageobjects.components;
 
 import java.util.ArrayList;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import pageobjects.base.AbstractComponent;
 
 public class StoreResultList extends AbstractComponent {
 
   // Selectors
-  private static final By resultItemsBy = By.cssSelector("[class='MuiPaper-root MuiPaper-elevation1"
-          + " MuiCard-root product-card MuiPaper-rounded']");
+  private static final By resultItemsBy = By.cssSelector("[data-test-name='product-card']");
 
   // Components
   private final ArrayList<StoreResultItem> listOfResults;
@@ -33,8 +31,8 @@ public class StoreResultList extends AbstractComponent {
    * @param index the index of the result item
    * @return a StoreResultItem
    */
-  public StoreResultItem getResult(int index) {
-    logger.debug("Get search result item: {}", index);
+  public StoreResultItem getResultOfProducts(int index) {
+    logger.debug("Get result item of the products: {}", index);
     return listOfResults.get(index);
   }
 

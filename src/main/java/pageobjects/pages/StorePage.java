@@ -14,7 +14,7 @@ public class StorePage extends AbstractPage {
   // Selectors
   private static final By headerBy = By.cssSelector("[class='MuiPaper-root MuiPaper-elevation4 MuiAppBar-root"
           + " MuiAppBar-positionStatic MuiAppBar-colorPrimary']");
-  private static final By cartListContainerBy = By.cssSelector(" header.App-header > div");
+  private static final By storeListContainerBy = By.cssSelector("header.App-header > div");
 
   // Components
   private Header header;
@@ -33,6 +33,8 @@ public class StorePage extends AbstractPage {
   }
 
   public StoreResultList storeResultList() {
+    StoreResultList storeResultList = new StoreResultList(driver.findElement(storeListContainerBy));
+    storeResultList.get();
     return storeResultList;
   }
 
@@ -43,8 +45,8 @@ public class StorePage extends AbstractPage {
   public boolean isListOfProductEmpty() {
     WebDriverWait wait = new WebDriverWait(DriverBase.getDriver(), TIMEOUT_TO_LOAD_PAGE);
     try {
-      wait.until(ExpectedConditions.presenceOfElementLocated(cartListContainerBy));
-      return driver.findElement(cartListContainerBy).isDisplayed();
+      wait.until(ExpectedConditions.presenceOfElementLocated(storeListContainerBy));
+      return driver.findElement(storeListContainerBy).isDisplayed();
     } catch (NotFoundException e) {
       logger.debug("The product added cart message was not found", e);
       return false;
@@ -60,7 +62,7 @@ public class StorePage extends AbstractPage {
   protected void isLoaded() throws Error {
     try {
       // verify that each element is displayed before continuing
-      driver.findElement(cartListContainerBy);
+      driver.findElement(storeListContainerBy);
       logger.debug("Store list container is displayed");
       driver.findElement(headerBy);
       logger.debug("Header container is displayed");
@@ -71,7 +73,7 @@ public class StorePage extends AbstractPage {
     // initialize and verify that each internal component is loaded
     header = new Header(driver.findElement(headerBy));
     header.get();
-    storeResultList = new StoreResultList(driver.findElement(cartListContainerBy));
+    storeResultList = new StoreResultList(driver.findElement(storeListContainerBy));
     storeResultList.get();
   }
 }
