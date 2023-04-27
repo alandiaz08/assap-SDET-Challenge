@@ -209,8 +209,6 @@ public class TestDemo extends TestBase {
             .goToCart()
             .buy();
 
-    CartPage cartPage = new CartPage();
-
     //Assert I
     TestReporter.addInfoToReport("Assert that the title of the thank you component is: " + expectedTitle);
     Assert.assertEquals(thankYou.getTitle(), expectedTitle, "The title of the thank you component is not: "
