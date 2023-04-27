@@ -116,9 +116,9 @@ choco install docker-desktop
 
 ## How to run
 
-### 1. Install git
+### 1. Run Docker
 
-Precondition: You need to be downloaded the "ASAPP - QA Automation Challenge" docker image.
+Precondition: you need to have downloaded the "ASAPP - QA Automation Challenge" docker image.
 
 ```bash
 # Build the Images for API and UI:
