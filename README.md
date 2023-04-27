@@ -154,7 +154,7 @@ Script name: registerNewUser
 6. Assert that the product list of the store is not empty.
 
 Test 2: 
-Scrip name: addProductsToCart
+Script name: addProductsToCart
 1. Open the Asapp challenge login page.
 2. Register a new user with a random generated username and password.
 3. Log in with the previously registered user.
@@ -165,7 +165,7 @@ Scrip name: addProductsToCart
 8. Assert that the quantity of products selected in the cart is "3".
 
 Test 3:
-Scrip name: deleteAProductToCart
+Script name: deleteAProductToCart
 1. Open the Asapp challenge login page.
 2. Register a new user with a random generated username and password.
 3. Log in with the previously registered user.
@@ -177,6 +177,7 @@ Scrip name: deleteAProductToCart
 9. Assert that the message "OH NO YOUR CART IS EMPTY" is displayed on the cart page.
 
 Test 4: buyAProductToCart
+Script name: buyAProductToCart
 1. Open the Asapp challenge login page.
 2. Register a new user with a random generated username and password.
 3. Log in with the previously registered user.
