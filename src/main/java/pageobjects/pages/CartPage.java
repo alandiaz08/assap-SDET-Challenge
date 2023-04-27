@@ -21,7 +21,7 @@ public class CartPage extends AbstractPage {
   private static final By headerBy = By.cssSelector("[class='MuiPaper-root MuiPaper-elevation4 MuiAppBar-root"
           + " MuiAppBar-positionStatic MuiAppBar-colorPrimary']");
   private static final By resultListContainerBy = By.cssSelector("header.App-header > div");
-  private static final By thankYouContainerBy = By.cssSelector("div.MuiDialog-container.MuiDialog-scrollPaper > div");
+  private static final By thankYouContainerBy = By.cssSelector("[role='dialog']");
 
 
   // Components
@@ -51,6 +51,8 @@ public class CartPage extends AbstractPage {
   public ThankYou buy() {
     TestReporter.addInfoToReport("Buy product");
     driver.findElement(buyBy).click();
+    WebDriverWait wait = new WebDriverWait(DriverBase.getDriver(), TIMEOUT_TO_LOAD_PAGE);
+    wait.until(ExpectedConditions.presenceOfElementLocated(thankYouContainerBy));
     ThankYou thankYou = new ThankYou(driver.findElement(thankYouContainerBy));
     thankYou.get();
     return thankYou;

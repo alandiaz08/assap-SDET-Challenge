@@ -5,6 +5,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import pageobjects.components.CartResultItem;
 import pageobjects.components.RegisterUser;
+import pageobjects.components.ThankYou;
 import pageobjects.pages.CartPage;
 import pageobjects.pages.LoginPage;
 import pageobjects.pages.StorePage;
@@ -26,7 +27,7 @@ public class TestDemo extends TestBase {
    *
    */
   @Test(
-      groups = {"register"},
+      groups = {"demo"},
       description = "Register a new user",
       enabled = true,
       retryAnalyzer = TestBase.RetryAnalyzer.class
@@ -72,7 +73,7 @@ public class TestDemo extends TestBase {
    *
    */
   @Test(
-          groups = {"register"},
+          groups = {"demo"},
           description = "Add products in the cart",
           enabled = true,
           retryAnalyzer = TestBase.RetryAnalyzer.class
@@ -82,10 +83,10 @@ public class TestDemo extends TestBase {
     // Arrange
     final String user = "test.user." + RANDOM_GENERATOR.nextString();
     final String userPassword = RANDOM_GENERATOR.nextString();
-    final String numberOfStickers = "3";
+    final String numberOfProductQuantity = "3";
     final String expectedProduct = "ASAPP Pens";
-    final String pensValue = "1";
-    final int pens = 1;
+    final String typeOfProduct = "1";
+    final int pens = 0;
 
 
     //Act I
@@ -101,8 +102,8 @@ public class TestDemo extends TestBase {
             .logIn()
             .storeResultList()
             .getResultOfProducts(pens)
-            .selectNumberOfProductToAddToCart(numberOfStickers, pensValue)
-            .addProductToCart(pensValue)
+            .selectNumberOfProductToAddToCart(numberOfProductQuantity, typeOfProduct)
+            .addProductToCart(typeOfProduct)
             .header()
             .goToCart()
             .cartResultList()
@@ -114,8 +115,8 @@ public class TestDemo extends TestBase {
             + expectedProduct);
 
     TestReporter.addInfoToReport("Assert the quantity of products selected in the cart");
-    Assert.assertEquals(cartResultItem.getQuantity(), numberOfStickers, "The quantity of products selected "
-            + "in the cart is not: " + numberOfStickers);
+    Assert.assertEquals(cartResultItem.getQuantity(), numberOfProductQuantity, "The quantity of products selected "
+            + "in the cart is not: " + numberOfProductQuantity);
   }
 
   /**
@@ -123,7 +124,7 @@ public class TestDemo extends TestBase {
    *
    */
   @Test(
-          groups = {"register"},
+          groups = {"demo"},
           description = "Add products in the cart",
           enabled = true
           //retryAnalyzer = TestBase.RetryAnalyzer.class
@@ -133,9 +134,9 @@ public class TestDemo extends TestBase {
     // Arrange
     final String user = "test.user." + RANDOM_GENERATOR.nextString();
     final String userPassword = RANDOM_GENERATOR.nextString();
-    final String numberOfStickers = "2";
+    final String numberOfProductQuantity = "2";
     final String expectedMessageOfEmptyList = "OH NO YOUR CART IS EMPTY";
-    final String stickerValue = "2";
+    final String typeOfProduct = "2";
     final int sticker = 1;
 
     //Act I
@@ -151,8 +152,8 @@ public class TestDemo extends TestBase {
             .logIn()
             .storeResultList()
             .getResultOfProducts(sticker)
-            .selectNumberOfProductToAddToCart(numberOfStickers, stickerValue)
-            .addProductToCart(stickerValue)
+            .selectNumberOfProductToAddToCart(numberOfProductQuantity, typeOfProduct)
+            .addProductToCart(typeOfProduct)
             .header()
             .goToCart()
             .cartResultList()
@@ -165,6 +166,62 @@ public class TestDemo extends TestBase {
     TestReporter.addInfoToReport("Assert that the message of the empty list is: " + expectedMessageOfEmptyList);
     Assert.assertEquals(cartPage.getYourCartIsEmpty(), expectedMessageOfEmptyList, "the message of "
             + "the empty list is not: " + expectedMessageOfEmptyList);
+  }
+
+  /**
+   * Buys products in the cart.
+   *
+   */
+  @Test(
+          groups = {"demo"},
+          description = "Buy products in the cart",
+          enabled = true
+          //retryAnalyzer = TestBase.RetryAnalyzer.class
+  )
+  public void buyAProductToCart() {
+
+    // Arrange
+    final String user = "test.user." + RANDOM_GENERATOR.nextString();
+    final String userPassword = RANDOM_GENERATOR.nextString();
+    final String numberOfProductQuantity = "2";
+    final String expectedTitle = "Thank you!";
+    final String expectedDescription = "We'll be sending you a link by e-mail "
+            + "to complete payment. We only accept DLacy Coins!!";
+    final String typeOfProduct = "3";
+    final int waterBottle = 2;
+
+    //Act I
+    LoginPage loginPage = new LoginPage();
+    loginPage.get();
+
+    ThankYou thankYou = loginPage.registerUser()
+            .enterUserName(user)
+            .enterPassword(userPassword)
+            .registerUser()
+            .enterUserName(user)
+            .enterPassword(userPassword)
+            .logIn()
+            .storeResultList()
+            .getResultOfProducts(waterBottle)
+            .selectNumberOfProductToAddToCart(numberOfProductQuantity, typeOfProduct)
+            .addProductToCart(typeOfProduct)
+            .header()
+            .goToCart()
+            .buy();
+
+    CartPage cartPage = new CartPage();
+
+    //Assert I
+    TestReporter.addInfoToReport("Assert that the title of the thank you component is: " + expectedTitle);
+    Assert.assertEquals(thankYou.getTitle(), expectedTitle, "The title of the thank you component is not: "
+            + expectedTitle);
+
+    TestReporter.addInfoToReport("Assert that the description of the thank you component is: " + expectedDescription);
+    Assert.assertEquals(thankYou.getDescription(), expectedDescription, "The description of the "
+            + "thank you component is not: " + expectedDescription);
+
+    TestReporter.addInfoToReport("Assert the picture of the thank you component is displayed");
+    Assert.assertTrue(thankYou.hasPicture(), "The picture of the thank you component is not displayed");
   }
 
 }
