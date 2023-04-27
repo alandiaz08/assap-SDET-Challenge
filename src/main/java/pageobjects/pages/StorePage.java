@@ -14,7 +14,6 @@ public class StorePage extends AbstractPage {
   // Selectors
   private static final By headerBy = By.cssSelector("[class='MuiPaper-root MuiPaper-elevation4 MuiAppBar-root"
           + " MuiAppBar-positionStatic MuiAppBar-colorPrimary']");
-  private static final By productAddedToCartMessageBy = By.id("snackbar-fab-message-id");
   private static final By cartListContainerBy = By.cssSelector(" header.App-header > div");
 
   // Components
@@ -41,11 +40,11 @@ public class StorePage extends AbstractPage {
    * Verifies if the product added cart message is displayed.
    * @return True if the message is displayed. False otherwise.
    */
-  public boolean isListOfRestaurantsEmpty() {
+  public boolean isListOfProductEmpty() {
     WebDriverWait wait = new WebDriverWait(DriverBase.getDriver(), TIMEOUT_TO_LOAD_PAGE);
     try {
-      wait.until(ExpectedConditions.presenceOfElementLocated(productAddedToCartMessageBy));
-      return driver.findElement(productAddedToCartMessageBy).isDisplayed();
+      wait.until(ExpectedConditions.presenceOfElementLocated(cartListContainerBy));
+      return driver.findElement(cartListContainerBy).isDisplayed();
     } catch (NotFoundException e) {
       logger.debug("The product added cart message was not found", e);
       return false;
@@ -54,7 +53,7 @@ public class StorePage extends AbstractPage {
 
   /**
    * isLoaded() is called when StorePage.get() is called. Defines when the page has finished
-   * loading. It must verify that the components of this page have also finished loading before
+   * loading. It must verify that the components of this page have also fiFnished loading before
    * continuing.
    */
   @Override
